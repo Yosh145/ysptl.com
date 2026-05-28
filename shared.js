@@ -11,11 +11,16 @@ document.addEventListener('DOMContentLoaded', () => {
         setInterval(updateTime, 1000);
     }
 
-    // send back to index 
+    // send back to index
     const homeBar = document.getElementById('home-bar');
-    if (homeBar && window.location.pathname.indexOf('index') === -1) {
-        homeBar.addEventListener('click', () => {
-            window.location.href = 'index.html';
-        });
+    if (window.location.pathname.indexOf('index') === -1) {
+        const goHome = () => { window.location.href = 'index.html'; };
+        if (homeBar) homeBar.addEventListener('click', goHome);
+
+        const homeZone = document.getElementById('home-zone');
+        if (homeZone && window.matchMedia('(max-width: 860px)').matches) {
+            homeZone.style.pointerEvents = 'auto';
+            homeZone.addEventListener('click', goHome);
+        }
     }
 });

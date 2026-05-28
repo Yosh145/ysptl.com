@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<!--    portfolio on a tablet         -->
-<!--  by yash p. and gegel gemmani    -->
+<!-- portfolio on a tablet -->
 
 <head>
   <meta charset="UTF-8">
@@ -11,12 +10,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="shared.css">
   <style>
-    /* screen — wallpaper */
-    #screen {
-      background: url('https://images.unsplash.com/photo-1554189097-764a8a9a4afc?q=80&w=2574&auto=format&fit=crop') no-repeat center center/cover;
-    }
-
-    /* status bar — light text on wallpaper */
+    /* status bar  */
     #status-bar {
       color: white;
       text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
@@ -115,72 +109,119 @@
     .app:hover .app-icon {
       transform: scale(1.1);
     }
+
+    @media (max-width: 860px) {
+      #home-screen {
+        padding: 50px 16px 24px;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .info-box {
+        margin: 8px 0 4px;
+        padding: 18px 20px;
+        border-radius: 20px;
+      }
+
+      .info-box h1 {
+        font-size: 1.6em;
+      }
+
+      .info-box p,
+      .info-box li {
+        font-size: 0.95em;
+      }
+
+      .info-box ul {
+        padding-left: 20px;
+      }
+
+      .apps-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 26px 16px;
+        padding: 28px 8px 16px;
+        max-width: 300px;
+        margin: 0 auto;
+        justify-items: center;
+      }
+
+      .app {
+        width: auto;
+      }
+
+      .app-icon {
+        width: 72px;
+        height: 72px;
+        font-size: 1.7em;
+      }
+    }
   </style>
 </head>
 
 <body>
   <div id="tablet">
-    <div id="screen">
-      <div id="status-bar">
-        <div class="status-left"><span id="time-display"></span></div>
-        <div class="status-right">
-          <i class="fa-solid fa-wifi"></i>
-          <i class="fa-solid fa-battery-full"></i>
-        </div>
+    <div id="status-bar">
+      <div class="status-left"><span id="time-display"></span></div>
+      <div class="status-right">
+        <i class="fa-solid fa-wifi"></i>
+        <i class="fa-solid fa-battery-full"></i>
       </div>
-      <div id="home-screen">
-        <div class="info-box">
-          <h1>About me:</h1>
-          <p>My name is Yash Patel, I am a <b>Senior Computer Engineer</b> at the University of New Hampshire</p>
-          <p>I have experience in various programming languages and technologies. Some of my skills include:</p>
-          <ul>
-            <li><b>Programming Languages:</b> Rust, C, (System)Verilog, Python, Web (HTML, CSS, JS), sh/bash</li>
-            <li><b>Protocols:</b> I2C, SPI, UART, CAN‐BUS, 100BASE‐T1 (PHY‐C, PCS), TCP/IP, Ethernet, SSH</li>
-          </ul>
-          <p> Feel free to explore my portfolio and check out my projects and experience!</p>
-        </div>
-        <div class="apps-container">
-          <div class="app" onclick="redirectTo('github')">
-            <div class="app-icon github"><i class="fa-brands fa-github"></i></div>
-            <p>GitHub</p>
-          </div>
-          <div class="app" onclick="redirectTo('resume')">
-            <div class="app-icon resume"><i class="fa-solid fa-file-lines"></i></div>
-            <p>Resume</p>
-          </div>
-          <div class="app" onclick="redirectTo('linkedin')">
-            <div class="app-icon linkedin"><i class="fa-brands fa-linkedin-in"></i></div>
-            <p>LinkedIn</p>
-          </div>
-          <div class="app" onclick="redirectTo('toolbox')">
-            <div class="app-icon toolbox"><i class="fa-solid fa-toolbox"></i></div>
-            <p>Toolbox</p>
-          </div>
-        </div>
-      </div>
-      <div id="home-zone"></div>
-      <div id="home-bar" aria-label="Home Button"></div>
     </div>
-    <script src="shared.js"></script>
-    <script>
-      window.redirectTo = function (pageName) {
-        const links = {
-          github: { url: 'https://github.com/yosh145', external: true },
-          linkedin: { url: 'https://www.linkedin.com/in/yash-patel-4202b8295', external: true },
-          resume: { url: 'resume.html', external: false },
-          toolbox: { url: 'toolbox.html', external: false }
-        };
-
-        const link = links[pageName];
-        if (link) {
-          if (link.external) {
-            window.open(link.url, '_blank');
-          } else {
-            window.location.href = link.url;
-          }
-        }
+    <div id="home-screen">
+      <div class="info-box">
+        <h1>About me:</h1>
+        <p>My name is Yash Patel, I am a <b>Graduated Computer Engineer</b> from the University of New Hampshire</p>
+        <p>I have experience in various programming languages and technologies. Some of my skills include:</p>
+        <ul>
+          <li><b>Programming Languages:</b> Rust, C, Python, Web (HTML, CSS, JS), Bash/Shell</li>
+          <li><b>Hardware Description:</b> SystemVerilog, Verilog</li>
+          <li><b>Protocols:</b> 100BASE-T1 (PHY-C, PCS), Ethernet, TCP/IP, CAN, I2C, SPI, UART, SSH</li>
+        </ul>
+        <p> Feel free to explore my portfolio and check out my projects and experience!</p>
+      </div>
+      <div class="apps-container">
+        <div class="app" onclick="redirectTo('github')">
+          <div class="app-icon github"><i class="fa-brands fa-github"></i></div>
+          <p>GitHub</p>
+        </div>
+        <div class="app" onclick="redirectTo('resume')">
+          <div class="app-icon resume"><i class="fa-solid fa-file-lines"></i></div>
+          <p>Resume</p>
+        </div>
+        <div class="app" onclick="redirectTo('linkedin')">
+          <div class="app-icon linkedin"><i class="fa-brands fa-linkedin-in"></i></div>
+          <p>LinkedIn</p>
+        </div>
+        <div class="app" onclick="redirectTo('toolbox')">
+          <div class="app-icon toolbox"><i class="fa-solid fa-toolbox"></i></div>
+          <p>Toolbox</p>
+        </div>
+      </div>
+    </div>
+    <div id="home-zone"></div>
+    <div id="home-bar" aria-label="Home Button"></div>
+  </div>
+  <script src="shared.js"></script>
+  <script>
+    window.redirectTo = function (pageName) {
+      const links = {
+        github: { url: 'https://github.com/yosh145', external: true },
+        linkedin: { url: 'https://www.linkedin.com/in/yash-patel-4202b8295', external: true },
+        resume: { url: 'resume.html', external: false },
+        toolbox: { url: 'toolbox.html', external: false }
       };
-    </script>
+
+      const link = links[pageName];
+      if (link) {
+        if (link.external) {
+          window.open(link.url, '_blank');
+        } else {
+          window.location.href = link.url;
+        }
+      }
+    };
+  </script>
 </body>
 
 </html>

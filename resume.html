@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<!--    portfolio on a tablet         -->
-<!--  by yash p. and gegel gemmani    -->
+<!-- portfolio on a tablet -->
 
 <head>
     <meta charset="UTF-8">
@@ -12,19 +10,14 @@
     <link rel="stylesheet" href="shared.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.2.67/pdf.min.mjs" type="module"></script>
     <style>
-        /* screen — dark for PDF viewer */
+        /* screen */
         #screen {
             background-color: #1e1e1e;
-            display: flex;
-            flex-direction: column;
         }
 
-        /* status bar — dark translucent */
+        /* solid black status bar */
         #status-bar {
-            color: #eaeaea;
-            background-color: rgba(30, 30, 30, 0.85);
-            -webkit-backdrop-filter: blur(10px);
-            backdrop-filter: blur(10px);
+            background-color: #000;
         }
 
         /* toolbar */
@@ -126,6 +119,38 @@
             display: block;
             margin-bottom: 16px;
             color: #555;
+        }
+
+        /* small screens */
+        @media (max-width: 860px) {
+            #toolbar {
+                flex-wrap: wrap;
+                gap: 5px;
+                padding: 8px 10px;
+            }
+
+            #toolbar button {
+                width: 34px;
+                height: 34px;
+            }
+
+            #toolbar .page-info {
+                min-width: 64px;
+                font-size: 0.75em;
+            }
+
+            #toolbar .download-btn {
+                font-size: 0;
+                padding: 0 12px;
+            }
+
+            #toolbar .download-btn i {
+                font-size: 0.95rem;
+            }
+
+            #pdf-container {
+                padding: 10px;
+            }
         }
     </style>
 </head>
