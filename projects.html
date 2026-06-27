@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- portfolio on a tablet -->
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="shared.css">
+  <style>
+    /* screen wallpaper comes from shared.css */
+
+    #projects-container {
+      padding: 44px 26px 28px;
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      box-sizing: border-box;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+    }
+
+    #projects-container::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    #projects-container::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 3px;
+    }
+
+    .projects-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 0 4px 18px;
+      flex-wrap: wrap;
+    }
+
+    .projects-head h1 {
+      margin: 0;
+      font-size: 1.7em;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #fff;
+    }
+
+    .projects-head a {
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.85em;
+      font-weight: 600;
+    }
+
+    .projects-head a:hover {
+      text-decoration: underline;
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 16px;
+    }
+
+    .project-card {
+      display: flex;
+      flex-direction: column;
+      background: var(--panel);
+      border: 1px solid var(--hairline);
+      border-radius: var(--r-panel);
+      box-shadow: var(--shadow-panel);
+      padding: 18px 20px;
+      color: var(--text);
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+    }
+
+    .project-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(255, 255, 255, 0.22);
+      background: #26262b;
+    }
+
+    .project-card:active {
+      transform: translateY(0) scale(0.99);
+    }
+
+    .project-card.featured {
+      grid-column: span 2;
+      border-color: rgba(10, 132, 255, 0.4);
+    }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+      font-size: 0.8em;
+      color: var(--text-secondary);
+    }
+
+    .lang {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .lang-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .stars {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .featured-badge {
+      color: var(--accent);
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .project-card h2 {
+      margin: 0 0 6px;
+      font-size: 1.08em;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: #fff;
+    }
+
+    .project-card p {
+      margin: 0 0 14px;
+      font-size: 0.88em;
+      line-height: 1.5;
+      color: var(--text-secondary);
+      flex: 1 1 auto;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tag {
+      font-size: 0.72em;
+      font-weight: 500;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--hairline);
+      color: var(--text);
+    }
+
+    .card-link {
+      margin-top: 14px;
+      font-size: 0.82em;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    @media (max-width: 860px) {
+      #projects-container {
+        padding: 50px 16px 24px;
+      }
+
+      .project-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .project-card.featured {
+        grid-column: span 1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="tablet">
+    <div id="screen">
+      <div id="status-bar" class="dark">
+        <div class="status-left"><span id="time-display"></span></div>
+        <div class="status-right">
+          <svg viewBox="0 0 20 15" aria-label="Wi-Fi" role="img">
+            <path
+              d="M10 14.2 12.4 11a3 3 0 0 0-4.8 0L10 14.2Zm4-5.3 1.5-2a7 7 0 0 0-11 0l1.5 2a4.6 4.6 0 0 1 8 0ZM10 0a11 11 0 0 0-8.9 4.5L2.6 6.5a8.6 8.6 0 0 1 14.8 0l1.5-2A11 11 0 0 0 10 0Z" />
+          </svg>
+          <svg viewBox="0 0 28 13" aria-label="Battery" role="img">
+            <rect x="0.5" y="0.5" width="23" height="12" rx="3.5" fill="none" stroke="currentColor"
+              stroke-opacity="0.45" />
+            <rect x="2" y="2" width="20" height="9" rx="2" />
+            <path d="M25 4.2v4.6a2 2 0 0 0 0-4.6Z" fill-opacity="0.5" />
+          </svg>
+        </div>
+      </div>
+
+      <div id="projects-container">
+        <div class="projects-head">
+          <h1>Projects</h1>
+          <a href="https://github.com/yosh145?tab=repositories" target="_blank" rel="noopener">All repositories on
+            GitHub →</a>
+        </div>
+        <div class="project-grid" id="project-grid"></div>
+      </div>
+
+      <div id="home-zone"></div>
+      <div id="home-bar" aria-label="Home Button"></div>
+    </div>
+  </div>
+
+  <script src="shared.js"></script>
+  <script>
+    // Curated from real GitHub repos — edit freely (add screenshots, demos, reorder).
+    const PROJECTS = [
+      {
+        name: 'HyprHelp',
+        repo: 'https://github.com/yosh145/HyprHelp',
+        lang: 'Python',
+        stars: 6,
+        featured: true,
+        desc: 'A Hyprland help menu surfacing keybinds and more.',
+        tags: ['Python', 'Linux', 'Hyprland']
+      },
+
+
+      {
+        name: 'reshown',
+        repo: 'https://github.com/Yosh145/reshown',
+        lang: 'Rust',
+        stars: 0,
+        featured: false,
+        desc: 'Show tracker in built in egui and Rust. Tracks not just shows, but whatever episodes/movies you watch.',
+        tags: ['Rust', 'egui', 'movies', 'database', 'cli']
+      },
+
+      {
+        name: 'MSP430 Morse Code Communicator',
+        repo: 'https://github.com/yosh145/msp430-morse-code-decoder',
+        lang: 'C',
+        stars: 0,
+        featured: false,
+        desc: 'Real-time Morse communicator on the MSP430FR6989: takes terminal input over UART, decodes each letter live, and drives the result to an LED and an audible buzzer.',
+        tags: ['C', 'MSP430', 'UART', 'Real-time', 'Embedded']
+      },
+      {
+        name: 'USFMH — Smart Audio EQ Headset',
+        repo: 'https://github.com/yosh145/USFMH',
+        lang: 'C',
+        stars: 0,
+        featured: true,
+        desc: 'Senior Project (2025): a smart audio equalizer headset — embedded firmware driving real-time DSP and audio output on custom hardware.',
+        tags: ['C', 'Embedded', 'DSP', 'Hardware', 'Senior Project']
+      },
+      {
+        name: 'KDE Dial Lockscreen',
+        repo: 'https://github.com/yosh145/KDE-Dial-Lockscreen',
+        lang: 'QML',
+        stars: 0,
+        featured: false,
+        desc: 'An i3lock-style dial lockscreen for KDE Plasma, built in QML.',
+        tags: ['QML', 'KDE', 'Linux', 'UI']
+      }, {
+        name: 'and 20+ MORE...',
+        repo: 'https://github.com/Yosh145?tab=repositories',
+        lang: '',
+        featured: false,
+        desc: 'Check out my full list of repos here!',
+        tags: []
+      },
+
+    ];
+
+    const LANG_COLORS = {
+      C: '#555555', Rust: '#dea584', Python: '#3572A5', QML: '#44a51c',
+      Lua: '#000080', JavaScript: '#f1e05a', HTML: '#e34c26', 'C++': '#f34b7d'
+    };
+
+    function esc(s) {
+      return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function renderProjects() {
+      document.getElementById('project-grid').innerHTML = PROJECTS.map(p => `
+        <a class="project-card${p.featured ? ' featured' : ''}" href="${p.repo}" target="_blank" rel="noopener">
+          <div class="card-top">
+            <span class="lang"><span class="lang-dot" style="background:${LANG_COLORS[p.lang] || '#888'}"></span>${esc(p.lang)}</span>
+            ${p.featured ? '<span class="featured-badge">★ Featured</span>'
+          : (p.stars > 0 ? `<span class="stars"><i class="fa-regular fa-star"></i>${p.stars}</span>` : '')}
+          </div>
+          <h2>${esc(p.name)}</h2>
+          <p>${esc(p.desc)}</p>
+          <div class="tags">${p.tags.map(t => `<span class="tag">${esc(t)}</span>`).join('')}</div>
+          <span class="card-link"><i class="fa-brands fa-github"></i> View on GitHub →</span>
+        </a>`).join('');
+    }
+
+    renderProjects();
+  </script>
+</body>
+
+</html>
