@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- i hope she make lots of spaghetti -->
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dinner</title>
+  <link rel="stylesheet" href="shared.css">
+  <style>
+    /* tablet frame, status bar, home bar come from shared.css */
+
+    #dinner-screen {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 52px 22px 44px;
+      box-sizing: border-box;
+    }
+
+    .dinner-card {
+      background: var(--panel);
+      border: 1px solid var(--hairline);
+      border-radius: var(--r-panel);
+      box-shadow: var(--shadow-panel);
+      padding: 40px 46px;
+      max-width: 520px;
+      width: 100%;
+      text-align: center;
+      color: var(--text);
+      box-sizing: border-box;
+    }
+
+    .dinner-card p {
+      margin: 0 0 12px;
+      font-size: 1.05em;
+      line-height: 1.55;
+    }
+
+    .dinner-card p:last-of-type {
+      margin-bottom: 0;
+    }
+
+    /* only one panel visible at a time */
+    .panel {
+      display: none;
+    }
+
+    .panel.active {
+      display: block;
+      animation: fade-in 0.35s ease;
+    }
+
+    @keyframes fade-in {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    /* reaction line that changes with every "no" */
+    .dinner-card p.no-phrase {
+      min-height: 1.55em;
+      /* reserves the line so the buttons don't jump on the first phrase */
+      margin: 18px 0 0;
+      color: var(--text-secondary);
+      font-style: italic;
+      font-size: 0.95em;
+    }
+
+    .no-phrase.pop {
+      animation: phrase-pop 0.3s ease;
+    }
+
+    @keyframes phrase-pop {
+      from {
+        opacity: 0;
+        transform: translateY(5px);
+      }
+
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    .btn-row {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      margin-top: 16px;
+    }
+
+    .btn-row button {
+      font: inherit;
+      font-weight: 600;
+      font-size: 1em;
+      padding: 12px 36px;
+      border-radius: var(--r-control);
+      cursor: pointer;
+    }
+
+    #yes-btn {
+      background: var(--yes-color, var(--accent));
+      color: #fff;
+      border: none;
+      position: relative;
+      z-index: 2;
+      transform-origin: left center;
+      transform: scale(var(--yes-scale, 1));
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+        background 0.3s ease;
+    }
+
+    #yes-btn:hover {
+      filter: brightness(1.12);
+    }
+
+    #yes-btn:active {
+      filter: brightness(0.88);
+    }
+
+    #no-btn {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text);
+      border: 1px solid var(--hairline);
+      position: relative;
+      z-index: 1;
+    }
+
+    #no-btn:hover {
+      background: rgba(255, 255, 255, 0.13);
+    }
+
+    #no-btn:active {
+      transform: scale(0.96);
+    }
+
+    @media (max-width: 860px) {
+      #dinner-screen {
+        padding: 50px 16px 48px;
+      }
+
+      .dinner-card {
+        padding: 28px 22px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="tablet">
+    <div id="screen">
+      <div id="status-bar" class="dark">
+        <div class="status-left"><span id="time-display"></span></div>
+        <div class="status-right">
+          <svg viewBox="0 0 20 15" aria-label="Wi-Fi" role="img">
+            <path
+              d="M10 14.2 12.4 11a3 3 0 0 0-4.8 0L10 14.2Zm4-5.3 1.5-2a7 7 0 0 0-11 0l1.5 2a4.6 4.6 0 0 1 8 0ZM10 0a11 11 0 0 0-8.9 4.5L2.6 6.5a8.6 8.6 0 0 1 14.8 0l1.5-2A11 11 0 0 0 10 0Z" />
+          </svg>
+          <svg viewBox="0 0 28 13" aria-label="Battery" role="img">
+            <rect x="0.5" y="0.5" width="23" height="12" rx="3.5" fill="none" stroke="currentColor"
+              stroke-opacity="0.45" />
+            <rect x="2" y="2" width="20" height="9" rx="2" />
+            <path d="M25 4.2v4.6a2 2 0 0 0 0-4.6Z" fill-opacity="0.5" />
+          </svg>
+        </div>
+      </div>
+
+      <div id="dinner-screen">
+        <div class="dinner-card">
+
+          <div id="ask-panel" class="panel active">
+            <p>Hey, so I've been thinking...</p>
+            <p>I think we should go to dinner on Sunday.</p>
+            <p>how does that sound?</p>
+            <p id="no-phrase" class="no-phrase" aria-live="polite"></p>
+            <div class="btn-row">
+              <button id="yes-btn">Yes</button>
+              <button id="no-btn">No</button>
+            </div>
+          </div>
+
+          <div id="success-panel" class="panel">
+            <p>thats my princess</p>
+            <p>ill pick you up then :)</p>
+          </div>
+
+          <div id="trigger-panel" class="panel">
+            <p>imagine not getting dinner with me</p>
+            <h1>boooo.....</h1>
+            <p>i guess i'll just eat alone then </p>
+            <h1>BYYYEEEEE.....</h1>
+          </div>
+
+        </div>
+      </div>
+
+      <div id="home-zone"></div>
+      <div id="home-bar" aria-label="Home Button"></div>
+    </div>
+  </div>
+
+  <script src="shared.js"></script>
+  <script>
+    const MAX_NO = 10;        // the 10th "no" shows the trigger screen
+    const GROW_PER_NO = 0.07; // yes-button scale added per "no"
+    let noCount = 0;
+
+    // EDIT ME: one phrase per "no" click, in order (1st shows after the 1st no, etc.)
+    const NO_PHRASES = [
+      'can you at least think about it?',
+      'what if we just gave it a shot?',
+      'imagine how fun this could be!',
+      'ill even let you pick the restaurant',
+      'fine ill pick the restaurant',
+      'please reconsider?',
+      'so like you just dont like me okay...',
+      'we can try another day!???!?!?!',
+      'literally was gonna bring you to nobu and everything',
+    ];
+
+    // yes-button color after each "no" (cycles if there are more no's than colors)
+    const YES_COLORS = [
+      '#ff453a', // red
+      '#ff9f0a', // orange
+      '#ffd60a', // yellow
+      '#30d158', // green
+      '#66d4cf', // mint
+      '#64d2ff', // cyan
+      '#5e5ce6', // indigo
+      '#bf5af2', // purple
+      '#ff375f', // pink
+    ];
+
+    const yesBtn = document.getElementById('yes-btn');
+    const noPhrase = document.getElementById('no-phrase');
+
+    function showPanel(id) {
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+
+    yesBtn.addEventListener('click', () => showPanel('success-panel'));
+
+    document.getElementById('no-btn').addEventListener('click', () => {
+      noCount++;
+      if (noCount >= MAX_NO) {
+        showPanel('trigger-panel');
+      } else {
+        yesBtn.style.setProperty('--yes-scale', 1 + noCount * GROW_PER_NO);
+        yesBtn.style.setProperty('--yes-color', YES_COLORS[(noCount - 1) % YES_COLORS.length]);
+        noPhrase.textContent = NO_PHRASES[Math.min(noCount - 1, NO_PHRASES.length - 1)] || '';
+        noPhrase.classList.remove('pop');
+        void noPhrase.offsetWidth;
+        noPhrase.classList.add('pop');
+      }
+    });
+  </script>
+</body>
+
+</html>
