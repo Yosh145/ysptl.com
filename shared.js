@@ -1,9 +1,7 @@
-/* clock + home bar navigation */
-
 document.addEventListener('DOMContentLoaded', () => {
-    // clock
     const timeDisplay = document.getElementById('time-display');
     if (timeDisplay) {
+        // tick status bar clock every sec
         function updateTime() {
             timeDisplay.textContent = new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
         }
@@ -11,9 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
         setInterval(updateTime, 1000);
     }
 
-    // send back to index
     const homeBar = document.getElementById('home-bar');
     if (window.location.pathname.indexOf('index') === -1) {
+        // bounce back to root if we're on a subpage
         const goHome = () => { window.location.href = 'index.html'; };
         if (homeBar) homeBar.addEventListener('click', goHome);
 

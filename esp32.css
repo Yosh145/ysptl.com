@@ -1,0 +1,568 @@
+/* board styles and crt window transitions */
+
+@font-face {
+    font-family: 'B612';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('assets/fonts/b612-400.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'B612';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url('assets/fonts/b612-700.woff2') format('woff2');
+}
+
+/* global board theme tokens */
+:root {
+    --page-bg: #050507;
+    --screen-bg: #091521;
+    --panel: #1e1e22;
+    --panel-strong: #16161a;
+    --hairline: rgba(255, 255, 255, 0.09);
+
+    --text: #f5f5f7;
+    --text-secondary: rgba(235, 235, 245, 0.60);
+
+    --accent: #0a84ff;
+    --accent-press: #0a6cff;
+    --focus-ring: 0 0 0 3px rgba(10, 132, 255, 0.35);
+
+    --r-panel: 22px;
+    --r-control: 12px;
+
+    --shadow-ambient: 0 30px 80px rgba(0, 0, 0, 0.55);
+    --shadow-panel: none;
+
+    --pcb: #0d0d10;
+    --silk: #ecebe6;
+    --trace: #19191e;
+    --pad: #c9c9cf;
+    --copper: #d98a3d;
+    --module: #2a4787;
+    --module-dark: #1d3368;
+
+    --font-ui: 'B612', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-ui);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: var(--text);
+    background: var(--page-bg);
+}
+
+body {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1.2px);
+    background-size: 24px 24px;
+    background-position: 12px 12px;
+    min-height: 100vh;
+}
+
+html.win-open {
+    overflow: hidden;
+}
+
+/* svg dev board layout */
+#bench {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: clamp(24px, 5vh, 64px) 16px 40px;
+}
+
+#board {
+    position: relative;
+    width: min(640px, 100%);
+    aspect-ratio: 336 / 694;
+    container-type: inline-size;
+    border-radius: calc(24 / 336 * 100%) / calc(24 / 694 * 100%);
+    box-shadow: var(--shadow-ambient);
+}
+
+#pcb {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    font-family: var(--font-ui);
+}
+
+.pcb-body {
+    fill: var(--pcb);
+    stroke: rgba(255, 255, 255, 0.07);
+    stroke-width: 0.8;
+}
+
+.hole {
+    fill: var(--page-bg);
+}
+
+.pad-ring,
+.mount-ring {
+    fill: var(--pad);
+}
+
+.silk {
+    fill: var(--silk);
+    font-weight: 700;
+    font-size: 11px;
+    text-anchor: middle;
+    dominant-baseline: central;
+    user-select: none;
+}
+
+.trace {
+    fill: none;
+    stroke: var(--trace);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    pointer-events: none;
+}
+
+.trace.pwr {
+    stroke-width: 2.8;
+}
+
+.via-ring {
+    fill: var(--via, #24242b);
+}
+
+.module-pcb {
+    fill: var(--module);
+}
+
+.antenna {
+    fill: none;
+    stroke: var(--module-dark);
+    stroke-width: 3;
+    stroke-linejoin: round;
+}
+
+.castellation {
+    fill: var(--copper);
+}
+
+.half-hole {
+    fill: var(--pcb);
+}
+
+.shield {
+    fill: #c4c7cc;
+    stroke: #8e929a;
+    stroke-width: 1;
+}
+
+.lead {
+    fill: #c6c8ce;
+}
+
+.fillet {
+    fill: #8f9299;
+}
+
+.epoxy {
+    fill: #232327;
+}
+
+.dimple {
+    fill: #34343b;
+}
+
+.marking {
+    fill: #8c8c95;
+    font-family: var(--font-mono);
+    text-anchor: middle;
+    dominant-baseline: central;
+    user-select: none;
+}
+
+.switch-base {
+    fill: #2b2c31;
+}
+
+.switch-cover {
+    fill: #c9ccd1;
+}
+
+.switch-emboss {
+    fill: none;
+    stroke: #a9adb4;
+    stroke-width: 0.9;
+}
+
+.switch-dimple {
+    fill: #9da1a8;
+}
+
+.actuator-rim {
+    fill: #17171a;
+}
+
+.actuator-top {
+    fill: #25262b;
+}
+
+.tant-body {
+    fill: #d6951b;
+}
+
+.tant-top {
+    fill: #efb639;
+}
+
+.tant-band {
+    fill: #b0650f;
+}
+
+.marking.tant-mark {
+    fill: #6b4508;
+    font-size: 8px;
+    font-weight: 700;
+}
+
+.usb-shell {
+    fill: #c9ccd1;
+}
+
+.usb-seam {
+    fill: none;
+    stroke: #a4a8ae;
+    stroke-width: 1;
+}
+
+.usb-latch {
+    fill: #8f939a;
+}
+
+.finger {
+    fill: #d2a441;
+}
+
+.marking.usb-mark {
+    fill: #55575d;
+    font-size: 10.5px;
+    font-weight: 700;
+}
+
+.jst-body {
+    fill: #eee5d1;
+}
+
+.jst-cavity {
+    fill: #ddd0b4;
+}
+
+.jst-rib {
+    fill: #e2d7bf;
+}
+
+.jst-pin {
+    fill: #9b9383;
+}
+
+.res-body {
+    fill: #141417;
+}
+
+.cap-body {
+    fill: #9c7a58;
+}
+
+.led-body {
+    fill: #dfe2e7;
+}
+
+.led-lens {
+    fill: #4d9dff;
+}
+
+.part {
+    cursor: pointer;
+    outline: none;
+}
+
+.part .hit {
+    fill: transparent;
+}
+
+.part .halo {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 1.2;
+    opacity: 0;
+}
+
+.part:hover .halo,
+.part:focus-visible .halo {
+    opacity: 1;
+}
+
+.part:hover .silk,
+.part:focus-visible .silk,
+.part:hover .marking,
+.part:focus-visible .marking {
+    fill: var(--accent);
+}
+
+.part:hover,
+.part:focus-visible {
+    --via: var(--accent);
+}
+
+.part:hover .trace,
+.part:focus-visible .trace {
+    stroke: var(--accent);
+}
+
+.part .press {
+    transform-box: fill-box;
+    transform-origin: center;
+    transition: transform 0.08s ease;
+}
+
+.part.pressed .actuator {
+    transform: scale(0.88);
+}
+
+.part.pressed .nudge {
+    transform: translateY(1px);
+}
+
+#screen {
+    --etch: #3f4248;
+    --etch-light: #62666d;
+    position: absolute;
+    left: calc(73 / 336 * 100%);
+    top: calc(83 / 694 * 100%);
+    width: calc(189 / 336 * 100%);
+    height: calc(210 / 694 * 100%);
+    box-sizing: border-box;
+    padding: 3.6cqw 4cqw;
+    background:
+        repeating-linear-gradient(to bottom, rgba(255, 255, 255, 0.07) 0 1px, rgba(0, 0, 0, 0.035) 1px 2px, transparent 2px 3px),
+        linear-gradient(160deg, #d9dbdf 0%, #c3c6cb 45%, #cfd1d5 70%, #b9bcc1 100%);
+    border-radius: 0.9cqw;
+    box-shadow: 0 0 0 1px #7c8088;
+    color: var(--etch);
+    font-size: clamp(10.5px, 2.45cqw, 16px);
+    line-height: 1.45;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.25) transparent;
+}
+
+#screen ::selection {
+    background: rgba(10, 132, 255, 0.3);
+}
+
+.screen-id {
+    display: block;
+    text-align: right;
+    font-weight: 700;
+    font-size: 0.9em;
+    letter-spacing: 0.14em;
+    margin-bottom: 0.1em;
+}
+
+.screen-fcc {
+    display: block;
+    text-align: right;
+    font-family: var(--font-mono);
+    font-size: 0.62em;
+    letter-spacing: 0.06em;
+    color: var(--etch-light);
+    margin-bottom: 0.9em;
+}
+
+#screen h1 {
+    margin: 0 0 0.5em;
+    font-size: 1.28em;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: #2f3237;
+}
+
+#screen hr {
+    border: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.22);
+    margin: 0 0 0.6em;
+}
+
+.screen-lines {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.screen-lines li {
+    margin-bottom: 0.3em;
+}
+
+.screen-lines b {
+    color: #2a2c31;
+}
+
+.screen-lines .k {
+    color: var(--etch-light);
+}
+
+.screen-hint {
+    margin: 0.8em 0 0;
+    font-size: 0.8em;
+    letter-spacing: 0.04em;
+    color: var(--etch-light);
+}
+
+.bench-foot {
+    margin: 22px 0 0;
+    font-size: 0.75em;
+    color: var(--text-secondary);
+    letter-spacing: 0.04em;
+}
+
+/* modal dialog and scanline effects */
+dialog.win {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--text);
+    overflow: hidden;
+}
+
+dialog.win[open] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+dialog.win::backdrop {
+    background: transparent;
+}
+
+.win-scrim {
+    position: absolute;
+    inset: 0;
+    background: rgba(5, 5, 7, 0.6);
+    touch-action: none;
+}
+
+.win-frame {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: min(1024px, 100vw - 32px);
+    height: min(720px, 100vh - 32px);
+    height: min(720px, 100dvh - 32px);
+    background: var(--panel-strong);
+    border: 1px solid var(--hairline);
+    border-radius: var(--r-panel);
+    box-shadow: var(--shadow-ambient), 0 0 0 1px rgba(0, 0, 0, 0.6);
+    overflow: hidden;
+    outline: none;
+}
+
+.win-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px 10px 18px;
+    border-bottom: 1px solid var(--hairline);
+    flex-shrink: 0;
+}
+
+.win-led {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+}
+
+.win-bar h2 {
+    flex: 1;
+    margin: 0;
+    font-size: 0.95em;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.win-close {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    border: 1px solid var(--hairline);
+    background: none;
+    color: var(--text);
+    font-size: 0.95em;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.15s ease;
+}
+
+.win-close:hover {
+    background: rgba(255, 255, 255, 0.10);
+}
+
+.win-close:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+}
+
+.win-body {
+    position: relative;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: hidden;
+    overscroll-behavior: contain;
+}
+
+.win-body.scroll {
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+}
+
+.win-fx {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    background:
+        repeating-linear-gradient(to bottom, rgba(255, 255, 255, 0.022) 0 1px, transparent 1px 3px),
+        radial-gradient(ellipse at center, transparent 62%, rgba(0, 0, 0, 0.28) 100%);
+}
+
+.win-flash {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: #eef5ff;
+    opacity: 0;
+}
+
+@media (max-width: 860px) {
+    .win-frame {
+        width: calc(100vw - 16px);
+        height: calc(100vh - 16px);
+        height: calc(100dvh - 16px);
+        border-radius: 16px;
+    }
+}

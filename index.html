@@ -1,263 +1,1243 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+    <!-- interactive esp32 dev board portfolio -->
 
-<!-- portfolio on a tablet -->
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Portfolio on an ESP32</title>
+        <meta
+            name="description"
+            content="Yash Patel, computer engineer. An interactive ESP32 board: tap a part to open my resume, projects, toolbox, GitHub or LinkedIn."
+        />
+        <link
+            rel="icon"
+            href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%23b8b8c0' d='M9 2h2v4H9zm6 0h2v4h-2zm6 0h2v4h-2zM9 26h2v4H9zm6 0h2v4h-2zm6 0h2v4h-2zM2 9h4v2H2zm0 6h4v2H2zm0 6h4v2H2zm24-12h4v2h-4zm0 6h4v2h-4zm0 6h4v2h-4z'/%3E%3Crect x='5' y='5' width='22' height='22' rx='3' fill='%2323232a'/%3E%3Ccircle cx='10' cy='10' r='2' fill='%230a84ff'/%3E%3C/svg%3E"
+        />
+        <link
+            rel="preload"
+            href="assets/fonts/b612-700.woff2"
+            as="font"
+            type="font/woff2"
+            crossorigin
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        />
+        <link rel="stylesheet" href="esp32.css" />
+        <link rel="stylesheet" href="apps/projects.css" />
+        <link rel="stylesheet" href="apps/resume.css" />
+        <link rel="stylesheet" href="apps/toolbox.css" />
+    </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portfolio on a Tablet</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="shared.css">
-  <style>
-    /* status bar */
-    #status-bar {
-      color: #fff;
-      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
-    }
+    <body>
+        <main id="bench">
+            <div id="board">
+                <svg id="pcb" viewBox="0 0 336 694" aria-label="ESP32 development board">
+                    <defs>
+                        <g id="pad">
+                            <circle r="10" class="pad-ring" />
+                            <circle r="5.5" class="hole" />
+                        </g>
+                        <g id="via">
+                            <circle r="2.6" class="via-ring" />
+                            <circle r="1.1" class="hole" />
+                        </g>
+                    </defs>
 
-    /* home screen */
-    #home-screen {
-      flex: 1 1 auto;
-      min-height: 0;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-      padding: 52px 22px 28px;
-      box-sizing: border-box;
-    }
+                    <g aria-hidden="true">
+                        <!-- board outline and mount holes -->
+                        <path
+                            class="pcb-body"
+                            d="M24 0H312A24 24 0 0 1 336 24V670A24 24 0 0 1 312 694H24A24 24 0 0 1 0 670V24A24 24 0 0 1 24 0Z"
+                        />
+                        <circle class="mount-ring" cx="32" cy="27" r="15.5" />
+                        <circle class="hole" cx="32" cy="27" r="12.5" />
+                        <circle class="mount-ring" cx="303" cy="27" r="15.5" />
+                        <circle class="hole" cx="303" cy="27" r="12.5" />
+                        <circle class="mount-ring" cx="303" cy="661" r="15.5" />
+                        <circle class="hole" cx="303" cy="661" r="12.5" />
 
-    .info-box {
-      background: var(--panel);
-      padding: 22px 26px;
-      border-radius: var(--r-panel);
-      border: 1px solid var(--hairline);
-      box-shadow: var(--shadow-panel);
-      margin: 10px 12px;
-      text-align: left;
-      color: var(--text);
-    }
+                        <path class="trace" d="M42 127H46L57 135" />
+                        <path class="trace" d="M42 157H46L57 150" />
+                        <path class="trace" d="M42 187H46L57 176" />
+                        <path class="trace" d="M42 247H46L57 236" />
+                        <path class="trace" d="M42 277H46L57 266" />
+                        <path class="trace" d="M42 307H44.5V291H57" />
+                        <path class="trace" d="M42 337H47.3V294.5H57" />
+                        <path class="trace" d="M42 367H50.1V298H57" />
+                        <path class="trace" d="M42 397H52.9V301.5H57" />
+                        <path class="trace" d="M42 427H55.7V305H57" />
+                        <path class="trace" d="M293 97H289L278 105" />
+                        <path class="trace" d="M293 127H289L278 120" />
+                        <path class="trace" d="M293 157H289L278 146" />
+                        <path class="trace" d="M293 187H289L278 176" />
+                        <path class="trace" d="M293 217H289L278 206" />
+                        <path class="trace" d="M293 247H289L278 236" />
+                        <path class="trace" d="M293 277H289L278 266" />
+                        <path class="trace" d="M293 307H290.5V291H278" />
+                        <path class="trace" d="M293 337H287.7V294.5H278" />
+                        <path class="trace" d="M293 367H284.9V298H278" />
+                        <path class="trace" d="M293 397H282.1V301.5H278" />
+                        <path class="trace" d="M42 457H47.4" />
+                        <use href="#via" x="50" y="457" />
+                        <path class="trace" d="M293 457H285.6" />
+                        <use href="#via" x="283" y="457" />
+                        <path class="trace" d="M293 487H285.6" />
+                        <use href="#via" x="283" y="487" />
+                        <path class="trace" d="M293 517H285.6" />
+                        <use href="#via" x="283" y="517" />
+                        <path class="trace" d="M131 432H126.6" />
+                        <use href="#via" x="124" y="432" />
+                        <path class="trace" d="M187 388V305" />
+                        <path class="trace" d="M198 392.5H203" />
+                        <path class="trace" d="M212 392.5H214.4" />
+                        <use href="#via" x="217" y="392.5" />
+                        <path class="trace" d="M96 539H102.4" />
+                        <use href="#via" x="105" y="539" />
+                        <path class="trace" d="M96 559H102.4" />
+                        <use href="#via" x="105" y="559" />
+                        <path class="trace" d="M118 649H140.4" />
+                        <use href="#via" x="143" y="649" />
+                        <path class="trace" d="M189 586V566" />
+                        <path class="trace" d="M189 557V553.6" />
+                        <use href="#via" x="189" y="551" />
+                        <path class="trace" d="M245 586V566" />
+                        <path class="trace" d="M245 557V553.6" />
+                        <use href="#via" x="245" y="551" />
+                        <path class="trace" d="M138 310.25H134.6" />
+                        <use href="#via" x="132" y="310.25" />
+                        <path class="trace" d="M147 310.25H151.4" />
+                        <use href="#via" x="154" y="310.25" />
+                        <path class="trace" d="M196 310.25H194.6" />
+                        <use href="#via" x="192.4" y="310.25" />
+                        <path class="trace" d="M205 310.25H208.4" />
+                        <use href="#via" x="211" y="310.25" />
+                        <path class="trace" d="M196 479H189.6" />
+                        <use href="#via" x="187" y="479" />
+                        <path class="trace" d="M196 493H189.6" />
+                        <use href="#via" x="187" y="493" />
+                        <path class="trace" d="M267 500H272.4" />
+                        <use href="#via" x="275" y="500" />
+                        <use href="#via" x="155" y="340" />
+                        <use href="#via" x="155" y="356" />
+                        <use href="#via" x="125" y="468" />
+                        <use href="#via" x="125" y="500" />
+                        <use href="#via" x="145" y="500" />
+                        <use href="#via" x="160" y="522" />
+                        <use href="#via" x="282" y="612" />
+                        <use href="#via" x="282" y="634" />
+                        <use href="#via" x="140" y="540" />
+                        <use href="#via" x="20" y="640" />
 
-    .info-box h1 {
-      color: #fff;
-      margin-top: 0;
-      font-weight: 700;
-      font-size: 2em;
-      letter-spacing: -0.02em;
-    }
+                        <use href="#pad" x="32" y="97" />
+                        <use href="#pad" x="32" y="127" />
+                        <use href="#pad" x="32" y="157" />
+                        <use href="#pad" x="32" y="187" />
+                        <use href="#pad" x="32" y="217" />
+                        <use href="#pad" x="32" y="247" />
+                        <use href="#pad" x="32" y="277" />
+                        <use href="#pad" x="32" y="307" />
+                        <use href="#pad" x="32" y="337" />
+                        <use href="#pad" x="32" y="367" />
+                        <use href="#pad" x="32" y="397" />
+                        <use href="#pad" x="32" y="427" />
+                        <use href="#pad" x="32" y="457" />
+                        <use href="#pad" x="32" y="487" />
+                        <use href="#pad" x="32" y="517" />
+                        <use href="#pad" x="32" y="547" />
+                        <use href="#pad" x="303" y="97" />
+                        <use href="#pad" x="303" y="127" />
+                        <use href="#pad" x="303" y="157" />
+                        <use href="#pad" x="303" y="187" />
+                        <use href="#pad" x="303" y="217" />
+                        <use href="#pad" x="303" y="247" />
+                        <use href="#pad" x="303" y="277" />
+                        <use href="#pad" x="303" y="307" />
+                        <use href="#pad" x="303" y="337" />
+                        <use href="#pad" x="303" y="367" />
+                        <use href="#pad" x="303" y="397" />
+                        <use href="#pad" x="303" y="427" />
+                        <use href="#pad" x="303" y="457" />
+                        <use href="#pad" x="303" y="487" />
+                        <use href="#pad" x="303" y="517" />
+                        <use href="#pad" x="303" y="547" />
+                        <g transform="translate(13 0) rotate(90)">
+                            <text class="silk" x="97" y="0">EN</text>
+                            <text class="silk" x="127" y="0">36</text>
+                            <text class="silk" x="157" y="0">39</text>
+                            <text class="silk" x="187" y="0">34</text>
+                            <text class="silk" x="217" y="0">NC</text>
+                            <text class="silk" x="247" y="0">32</text>
+                            <text class="silk" x="277" y="0">33</text>
+                            <text class="silk" x="307" y="0">25</text>
+                            <text class="silk" x="337" y="0">26</text>
+                            <text class="silk" x="367" y="0">27</text>
+                            <text class="silk" x="397" y="0">14</text>
+                            <text class="silk" x="427" y="0">12</text>
+                            <text class="silk" x="457" y="0">13</text>
+                            <text class="silk" x="487" y="0">VIN</text>
+                            <text class="silk" x="517" y="0">5V</text>
+                            <text class="silk" x="547" y="0">GND</text>
+                        </g>
+                        <g transform="translate(323 0) rotate(-90)">
+                            <text class="silk" x="-97" y="0">23</text>
+                            <text class="silk" x="-127" y="0">22</text>
+                            <text class="silk" x="-157" y="0">TX0</text>
+                            <text class="silk" x="-187" y="0">RX0</text>
+                            <text class="silk" x="-217" y="0">21</text>
+                            <text class="silk" x="-247" y="0">19</text>
+                            <text class="silk" x="-277" y="0">18</text>
+                            <text class="silk" x="-307" y="0">5</text>
+                            <text class="silk" x="-337" y="0">17</text>
+                            <text class="silk" x="-367" y="0">16</text>
+                            <text class="silk" x="-397" y="0">4</text>
+                            <text class="silk" x="-427" y="0">0</text>
+                            <text class="silk" x="-457" y="0">2</text>
+                            <text class="silk" x="-487" y="0">15</text>
+                            <text class="silk" x="-517" y="0">3V3</text>
+                            <text class="silk" x="-547" y="0">GND</text>
+                        </g>
 
-    .info-box p {
-      font-size: 0.92em;
-      line-height: 1.5;
-      margin-bottom: 6px;
-    }
+                        <!-- wroom module and antenna traces -->
+                        <rect class="module-pcb" x="57" y="0" width="221" height="305" rx="3" />
+                        <path class="antenna" d="M73 72V12H97V37H122V12H146V37H171V12H219V70" />
+                        <rect class="castellation" x="57" y="86" width="14" height="8" rx="1" />
+                        <circle class="half-hole" cx="57" cy="90" r="2.2" />
+                        <rect class="castellation" x="264" y="86" width="14" height="8" rx="1" />
+                        <circle class="half-hole" cx="278" cy="90" r="2.2" />
+                        <rect class="castellation" x="57" y="101" width="14" height="8" rx="1" />
+                        <circle class="half-hole" cx="57" cy="105" r="2.2" />
+                        <rect class="castellation" x="264" y="101" width="14" height="8" rx="1" />
+                        <circle class="half-hole" cx="278" cy="105" r="2.2" />
+                        <rect class="castellation" x="57" y="116" width="14" height="8" rx="1" />
+                        <circle class="half-hole" cx="57" cy="120" r="2.2" />
+                        <rect class="castellation" x="264" y="116" width="14" height="8" rx="1" />
+                        <circle class="half-hole" cx="278" cy="120" r="2.2" />
+                        <rect class="castellation" x="57" y="131" width="14" height="8" rx="1" />
+                        <circle class="half-hole" cx="57" cy="135" r="2.2" />
+                        <rect class="castellation" x="264" y="131" width="14" height="8" rx="1" />
+                        <circle class="half-hole" cx="278" cy="135" r="2.2" />
+                        <rect class="castellation" x="57" y="146" width="14" height="8" rx="1" />
+                        <circle class="half-hole" cx="57" cy="150" r="2.2" />
+                        <rect class="castellation" x="264" y="146" width="14" height="8" rx="1" />
+                        <circle class="half-hole" cx="278" cy="150" r="2.2" />
+                        <rect class="castellation" x="57" y="161" width="14" height="8" rx="1" />
+                        <circle class="half-hole" cx="57" cy="165" r="2.2" />
+                        <rect class="castellation" x="264" y="161" width="14" height="8" rx="1" />
+                        <circle class="half-hole" cx="278" cy="165" r="2.2" />
+                        <rect class="castellation" x="57" y="176" width="14" height="8" rx="1" />
+                        <circle class="half-hole" cx="57" cy="180" r="2.2" />
+                        <rect class="castellation" x="264" y="176" width="14" height="8" rx="1" />
+                        <circle class="half-hole" cx="278" cy="180" r="2.2" />
+                        <rect class="castellation" x="57" y="191" width="14" height="8" rx="1" />
+                        <circle class="half-hole" cx="57" cy="195" r="2.2" />
+                        <rect class="castellation" x="264" y="191" width="14" height="8" rx="1" />
+                        <circle class="half-hole" cx="278" cy="195" r="2.2" />
+                        <rect class="castellation" x="57" y="206" width="14" height="8" rx="1" />
+                        <circle class="half-hole" cx="57" cy="210" r="2.2" />
+                        <rect class="castellation" x="264" y="206" width="14" height="8" rx="1" />
+                        <circle class="half-hole" cx="278" cy="210" r="2.2" />
+                        <rect class="castellation" x="57" y="221" width="14" height="8" rx="1" />
+                        <circle class="half-hole" cx="57" cy="225" r="2.2" />
+                        <rect class="castellation" x="264" y="221" width="14" height="8" rx="1" />
+                        <circle class="half-hole" cx="278" cy="225" r="2.2" />
+                        <rect class="castellation" x="57" y="236" width="14" height="8" rx="1" />
+                        <circle class="half-hole" cx="57" cy="240" r="2.2" />
+                        <rect class="castellation" x="264" y="236" width="14" height="8" rx="1" />
+                        <circle class="half-hole" cx="278" cy="240" r="2.2" />
+                        <rect class="castellation" x="57" y="251" width="14" height="8" rx="1" />
+                        <circle class="half-hole" cx="57" cy="255" r="2.2" />
+                        <rect class="castellation" x="264" y="251" width="14" height="8" rx="1" />
+                        <circle class="half-hole" cx="278" cy="255" r="2.2" />
+                        <rect class="castellation" x="57" y="266" width="14" height="8" rx="1" />
+                        <circle class="half-hole" cx="57" cy="270" r="2.2" />
+                        <rect class="castellation" x="264" y="266" width="14" height="8" rx="1" />
+                        <circle class="half-hole" cx="278" cy="270" r="2.2" />
+                        <rect class="castellation" x="57" y="281" width="14" height="8" rx="1" />
+                        <circle class="half-hole" cx="57" cy="285" r="2.2" />
+                        <rect class="castellation" x="264" y="281" width="14" height="8" rx="1" />
+                        <circle class="half-hole" cx="278" cy="285" r="2.2" />
+                        <rect class="castellation" x="96" y="292" width="9" height="13" rx="1" />
+                        <circle class="half-hole" cx="100.5" cy="305" r="2.2" />
+                        <rect class="castellation" x="111.5" y="292" width="9" height="13" rx="1" />
+                        <circle class="half-hole" cx="116" cy="305" r="2.2" />
+                        <rect class="castellation" x="127" y="292" width="9" height="13" rx="1" />
+                        <circle class="half-hole" cx="131.5" cy="305" r="2.2" />
+                        <rect class="castellation" x="142.5" y="292" width="9" height="13" rx="1" />
+                        <circle class="half-hole" cx="147" cy="305" r="2.2" />
+                        <rect class="castellation" x="158" y="292" width="9" height="13" rx="1" />
+                        <circle class="half-hole" cx="162.5" cy="305" r="2.2" />
+                        <rect class="castellation" x="173.5" y="292" width="9" height="13" rx="1" />
+                        <circle class="half-hole" cx="178" cy="305" r="2.2" />
+                        <rect class="castellation" x="189" y="292" width="9" height="13" rx="1" />
+                        <circle class="half-hole" cx="193.5" cy="305" r="2.2" />
+                        <rect class="castellation" x="204.5" y="292" width="9" height="13" rx="1" />
+                        <circle class="half-hole" cx="209" cy="305" r="2.2" />
+                        <rect class="castellation" x="220" y="292" width="9" height="13" rx="1" />
+                        <circle class="half-hole" cx="224.5" cy="305" r="2.2" />
+                        <rect class="castellation" x="235.5" y="292" width="9" height="13" rx="1" />
+                        <circle class="half-hole" cx="240" cy="305" r="2.2" />
+                        <rect class="shield" x="73" y="83" width="189" height="210" rx="3" />
 
-    .info-box li {
-      line-height: 1.55;
-    }
+                        <rect class="fillet" x="130" y="420.5" width="8" height="5" rx="0.6" />
+                        <rect class="lead" x="131" y="421" width="6" height="4" />
+                        <rect class="fillet" x="130" y="429.5" width="8" height="5" rx="0.6" />
+                        <rect class="lead" x="131" y="430" width="6" height="4" />
+                        <rect class="fillet" x="130" y="438.5" width="8" height="5" rx="0.6" />
+                        <rect class="lead" x="131" y="439" width="6" height="4" />
+                        <rect class="fillet" x="154" y="420.5" width="8" height="5" rx="0.6" />
+                        <rect class="lead" x="155" y="421" width="6" height="4" />
+                        <rect class="fillet" x="154" y="438.5" width="8" height="5" rx="0.6" />
+                        <rect class="lead" x="155" y="439" width="6" height="4" />
+                        <rect class="epoxy" x="136" y="417" width="20" height="30" rx="1.5" />
+                        <circle class="dimple" cx="140.5" cy="421.5" r="1.4" />
+                        <rect class="fillet" x="51" y="536.5" width="9" height="5" rx="0.6" />
+                        <rect class="lead" x="52" y="537" width="7" height="4" />
+                        <rect class="fillet" x="88" y="536.5" width="9" height="5" rx="0.6" />
+                        <rect class="lead" x="89" y="537" width="7" height="4" />
+                        <rect class="fillet" x="51" y="546.5" width="9" height="5" rx="0.6" />
+                        <rect class="lead" x="52" y="547" width="7" height="4" />
+                        <rect class="fillet" x="88" y="546.5" width="9" height="5" rx="0.6" />
+                        <rect class="lead" x="89" y="547" width="7" height="4" />
+                        <rect class="fillet" x="51" y="556.5" width="9" height="5" rx="0.6" />
+                        <rect class="lead" x="52" y="557" width="7" height="4" />
+                        <rect class="fillet" x="88" y="556.5" width="9" height="5" rx="0.6" />
+                        <rect class="lead" x="89" y="557" width="7" height="4" />
+                        <rect class="epoxy" x="57" y="532" width="34" height="34" rx="1.5" />
+                        <circle class="dimple" cx="62.5" cy="537.5" r="1.8" />
+                        <rect class="fillet" x="99" y="596" width="20" height="12" rx="1" />
+                        <rect class="fillet" x="99" y="643" width="20" height="12" rx="1" />
+                        <rect class="lead" x="100" y="598" width="18" height="8" rx="1" />
+                        <rect class="lead" x="100" y="645" width="18" height="8" rx="1" />
+                        <rect class="jst-body" x="13" y="578" width="90" height="99" rx="3" />
+                        <rect class="jst-cavity" x="22" y="587" width="72" height="81" rx="2" />
+                        <rect class="jst-rib" x="13" y="600" width="5" height="10" />
+                        <rect class="jst-rib" x="13" y="645" width="5" height="10" />
+                        <rect class="jst-pin" x="35" y="597" width="60" height="10" rx="1.5" />
+                        <rect class="jst-pin" x="35" y="644" width="60" height="10" rx="1.5" />
+                        <text class="silk" x="129" y="610" style="font-size: 14px">+</text>
+                        <text
+                            class="silk"
+                            transform="translate(129 628) rotate(90)"
+                            style="font-size: 7px"
+                        >
+                            usb1
+                        </text>
+                        <text class="silk" x="129" y="642" style="font-size: 14px">−</text>
+                        <rect class="fillet" x="175" y="387" width="24" height="11" rx="1" />
+                        <rect class="led-body" x="176" y="388" width="22" height="9" rx="1" />
+                        <rect class="lead" x="176" y="388" width="4" height="9" />
+                        <rect class="lead" x="194" y="388" width="4" height="9" />
+                        <rect class="led-lens" x="183" y="389.5" width="8" height="6" rx="1" />
+                        <text
+                            class="silk"
+                            transform="translate(187 408) rotate(0)"
+                            style="font-size: 7px"
+                        >
+                            IO2
+                        </text>
+                        <rect
+                            class="fillet"
+                            x="202.5"
+                            y="389.75"
+                            width="10"
+                            height="5.5"
+                            rx="0.6"
+                        />
+                        <rect class="res-body" x="203" y="390.25" width="9" height="4.5" rx="0.5" />
+                        <rect class="lead" x="203" y="390.25" width="2" height="4.5" />
+                        <rect class="lead" x="210" y="390.25" width="2" height="4.5" />
+                        <rect
+                            class="fillet"
+                            x="186.25"
+                            y="556.5"
+                            width="5.5"
+                            height="10"
+                            rx="0.6"
+                        />
+                        <rect class="res-body" x="186.75" y="557" width="4.5" height="9" rx="0.5" />
+                        <rect class="lead" x="186.75" y="557" width="4.5" height="2" />
+                        <rect class="lead" x="186.75" y="564" width="4.5" height="2" />
+                        <rect
+                            class="fillet"
+                            x="242.25"
+                            y="556.5"
+                            width="5.5"
+                            height="10"
+                            rx="0.6"
+                        />
+                        <rect class="res-body" x="242.75" y="557" width="4.5" height="9" rx="0.5" />
+                        <rect class="lead" x="242.75" y="557" width="4.5" height="2" />
+                        <rect class="lead" x="242.75" y="564" width="4.5" height="2" />
+                        <rect class="fillet" x="137.5" y="307.5" width="10" height="5.5" rx="0.6" />
+                        <rect class="cap-body" x="138" y="308" width="9" height="4.5" rx="0.5" />
+                        <rect class="lead" x="138" y="308" width="2" height="4.5" />
+                        <rect class="lead" x="145" y="308" width="2" height="4.5" />
+                        <rect class="fillet" x="195.5" y="307.5" width="10" height="5.5" rx="0.6" />
+                        <rect class="cap-body" x="196" y="308" width="9" height="4.5" rx="0.5" />
+                        <rect class="lead" x="196" y="308" width="2" height="4.5" />
+                        <rect class="lead" x="203" y="308" width="2" height="4.5" />
+                        <text class="silk" x="86" y="466" style="font-size: 8px">ysptl.com</text>
+                        <text class="silk" x="86" y="478" style="font-size: 7px; font-weight: 400">
+                            rev 2026
+                        </text>
+                    </g>
 
-    /* app grid */
-    .apps-container {
-      display: flex;
-      justify-content: center;
-      gap: 68px;
-      padding: 56px 40px 40px;
-      flex-wrap: wrap;
-    }
+                    <!-- interactive board components that trigger app modals -->
+                    <a
+                        class="part"
+                        href="#resume"
+                        data-app="resume"
+                        aria-label="Resume, opens window"
+                    >
+                        <path class="trace" d="M42 97H46L57 108" />
+                        <path class="trace" d="M87.5 330V305" />
+                        <rect class="halo" x="57" y="318" width="85" height="56" rx="4" />
+                        <rect class="hit" x="57" y="318" width="85" height="56" />
+                        <rect class="fillet" x="83" y="329" width="9" height="9" rx="1" />
+                        <rect class="lead" x="84" y="330" width="7" height="7" rx="0.6" />
+                        <rect class="fillet" x="83" y="354" width="9" height="9" rx="1" />
+                        <rect class="lead" x="84" y="355" width="7" height="7" rx="0.6" />
+                        <rect class="fillet" x="130" y="329" width="9" height="9" rx="1" />
+                        <rect class="lead" x="131" y="330" width="7" height="7" rx="0.6" />
+                        <rect class="fillet" x="130" y="354" width="9" height="9" rx="1" />
+                        <rect class="lead" x="131" y="355" width="7" height="7" rx="0.6" />
+                        <rect class="switch-base" x="91" y="326" width="40" height="40" rx="2" />
+                        <rect
+                            class="switch-cover"
+                            x="92.5"
+                            y="327.5"
+                            width="37"
+                            height="37"
+                            rx="1.5"
+                        />
+                        <rect class="switch-emboss" x="96" y="331" width="30" height="30" rx="2" />
+                        <circle class="switch-dimple" cx="96.5" cy="331.5" r="1.1" />
+                        <circle class="switch-dimple" cx="96.5" cy="360.5" r="1.1" />
+                        <circle class="switch-dimple" cx="125.5" cy="331.5" r="1.1" />
+                        <circle class="switch-dimple" cx="125.5" cy="360.5" r="1.1" />
+                        <g class="actuator press">
+                            <circle class="actuator-rim" cx="111" cy="346" r="10.5" />
+                            <circle class="actuator-top" cx="111" cy="346" r="7.5" />
+                        </g>
+                        <text
+                            class="silk"
+                            transform="translate(75 346) rotate(90)"
+                            style="font-size: 7px"
+                        >
+                            RESume
+                        </text>
+                    </a>
+                    <a
+                        class="part"
+                        href="#projects"
+                        data-app="projects"
+                        aria-label="Projects, opens window"
+                    >
+                        <path class="trace" d="M293 427H279.3V305" />
+                        <path class="trace" d="M249.5 362V380H279.3" />
+                        <rect class="halo" x="195" y="318" width="84" height="56" rx="4" />
+                        <rect class="hit" x="195" y="318" width="84" height="56" />
+                        <rect class="fillet" x="198" y="329" width="9" height="9" rx="1" />
+                        <rect class="lead" x="199" y="330" width="7" height="7" rx="0.6" />
+                        <rect class="fillet" x="198" y="354" width="9" height="9" rx="1" />
+                        <rect class="lead" x="199" y="355" width="7" height="7" rx="0.6" />
+                        <rect class="fillet" x="245" y="329" width="9" height="9" rx="1" />
+                        <rect class="lead" x="246" y="330" width="7" height="7" rx="0.6" />
+                        <rect class="fillet" x="245" y="354" width="9" height="9" rx="1" />
+                        <rect class="lead" x="246" y="355" width="7" height="7" rx="0.6" />
+                        <rect class="switch-base" x="206" y="326" width="40" height="40" rx="2" />
+                        <rect
+                            class="switch-cover"
+                            x="207.5"
+                            y="327.5"
+                            width="37"
+                            height="37"
+                            rx="1.5"
+                        />
+                        <rect class="switch-emboss" x="211" y="331" width="30" height="30" rx="2" />
+                        <circle class="switch-dimple" cx="211.5" cy="331.5" r="1.1" />
+                        <circle class="switch-dimple" cx="211.5" cy="360.5" r="1.1" />
+                        <circle class="switch-dimple" cx="240.5" cy="331.5" r="1.1" />
+                        <circle class="switch-dimple" cx="240.5" cy="360.5" r="1.1" />
+                        <g class="actuator press">
+                            <circle class="actuator-rim" cx="226" cy="346" r="10.5" />
+                            <circle class="actuator-top" cx="226" cy="346" r="7.5" />
+                        </g>
+                        <text
+                            class="silk"
+                            transform="translate(260 346) rotate(-90)"
+                            style="font-size: 7px"
+                        >
+                            PROjects
+                        </text>
+                    </a>
+                    <a
+                        class="part"
+                        href="#toolbox"
+                        data-app="toolbox"
+                        aria-label="Toolbox, opens window"
+                    >
+                        <path class="trace" d="M125 392H170V305" />
+                        <path class="trace" d="M170 423H161" />
+                        <rect class="halo" x="55" y="366" width="76" height="46" rx="4" />
+                        <rect class="hit" x="55" y="366" width="76" height="46" />
+                        <g class="press nudge">
+                            <rect class="fillet" x="58" y="378" width="10" height="22" rx="1" />
+                            <rect class="fillet" x="118" y="378" width="10" height="22" rx="1" />
+                            <rect class="lead" x="61" y="380" width="7" height="18" rx="0.8" />
+                            <rect class="lead" x="118" y="380" width="7" height="18" rx="0.8" />
+                            <rect class="tant-body" x="66" y="371" width="54" height="36" rx="2" />
+                            <rect
+                                class="tant-top"
+                                x="68.5"
+                                y="373.5"
+                                width="49"
+                                height="31"
+                                rx="1.5"
+                            />
+                            <rect class="tant-band" x="108" y="373.5" width="6" height="31" />
+                            <text
+                                class="silk"
+                                transform="translate(90 416) rotate(0)"
+                                style="font-size: 7px"
+                            >
+                                toolbox
+                            </text>
+                        </g>
+                    </a>
+                    <a
+                        class="part"
+                        href="https://github.com/yosh145"
+                        target="_blank"
+                        rel="noopener"
+                        aria-label="GitHub, opens in new tab"
+                    >
+                        <path class="trace" d="M224 522V586" />
+                        <path class="trace" d="M238 522V586" />
+                        <path class="trace" d="M217 451V438.4" />
+                        <path class="trace" d="M238 451V438.4" />
+                        <use href="#via" x="217" y="436" />
+                        <use href="#via" x="238" y="436" />
+                        <rect class="halo" x="191" y="446" width="81" height="81" rx="4" />
+                        <rect class="hit" x="191" y="446" width="81" height="81" />
+                        <g class="press nudge">
+                            <rect class="fillet" x="208" y="450" width="4" height="7" />
+                            <rect class="fillet" x="208" y="516" width="4" height="7" />
+                            <rect class="fillet" x="195" y="463" width="7" height="4" />
+                            <rect class="fillet" x="261" y="463" width="7" height="4" />
+                            <rect class="lead" x="208.5" y="451" width="3" height="5" />
+                            <rect class="lead" x="208.5" y="517" width="3" height="5" />
+                            <rect class="lead" x="196" y="463.5" width="5" height="3" />
+                            <rect class="lead" x="262" y="463.5" width="5" height="3" />
+                            <rect class="fillet" x="215" y="450" width="4" height="7" />
+                            <rect class="fillet" x="215" y="516" width="4" height="7" />
+                            <rect class="fillet" x="195" y="470" width="7" height="4" />
+                            <rect class="fillet" x="261" y="470" width="7" height="4" />
+                            <rect class="lead" x="215.5" y="451" width="3" height="5" />
+                            <rect class="lead" x="215.5" y="517" width="3" height="5" />
+                            <rect class="lead" x="196" y="470.5" width="5" height="3" />
+                            <rect class="lead" x="262" y="470.5" width="5" height="3" />
+                            <rect class="fillet" x="222" y="450" width="4" height="7" />
+                            <rect class="fillet" x="222" y="516" width="4" height="7" />
+                            <rect class="fillet" x="195" y="477" width="7" height="4" />
+                            <rect class="fillet" x="261" y="477" width="7" height="4" />
+                            <rect class="lead" x="222.5" y="451" width="3" height="5" />
+                            <rect class="lead" x="222.5" y="517" width="3" height="5" />
+                            <rect class="lead" x="196" y="477.5" width="5" height="3" />
+                            <rect class="lead" x="262" y="477.5" width="5" height="3" />
+                            <rect class="fillet" x="229" y="450" width="4" height="7" />
+                            <rect class="fillet" x="229" y="516" width="4" height="7" />
+                            <rect class="fillet" x="195" y="484" width="7" height="4" />
+                            <rect class="fillet" x="261" y="484" width="7" height="4" />
+                            <rect class="lead" x="229.5" y="451" width="3" height="5" />
+                            <rect class="lead" x="229.5" y="517" width="3" height="5" />
+                            <rect class="lead" x="196" y="484.5" width="5" height="3" />
+                            <rect class="lead" x="262" y="484.5" width="5" height="3" />
+                            <rect class="fillet" x="236" y="450" width="4" height="7" />
+                            <rect class="fillet" x="236" y="516" width="4" height="7" />
+                            <rect class="fillet" x="195" y="491" width="7" height="4" />
+                            <rect class="fillet" x="261" y="491" width="7" height="4" />
+                            <rect class="lead" x="236.5" y="451" width="3" height="5" />
+                            <rect class="lead" x="236.5" y="517" width="3" height="5" />
+                            <rect class="lead" x="196" y="491.5" width="5" height="3" />
+                            <rect class="lead" x="262" y="491.5" width="5" height="3" />
+                            <rect class="fillet" x="243" y="450" width="4" height="7" />
+                            <rect class="fillet" x="243" y="516" width="4" height="7" />
+                            <rect class="fillet" x="195" y="498" width="7" height="4" />
+                            <rect class="fillet" x="261" y="498" width="7" height="4" />
+                            <rect class="lead" x="243.5" y="451" width="3" height="5" />
+                            <rect class="lead" x="243.5" y="517" width="3" height="5" />
+                            <rect class="lead" x="196" y="498.5" width="5" height="3" />
+                            <rect class="lead" x="262" y="498.5" width="5" height="3" />
+                            <rect class="fillet" x="250" y="450" width="4" height="7" />
+                            <rect class="fillet" x="250" y="516" width="4" height="7" />
+                            <rect class="fillet" x="195" y="505" width="7" height="4" />
+                            <rect class="fillet" x="261" y="505" width="7" height="4" />
+                            <rect class="lead" x="250.5" y="451" width="3" height="5" />
+                            <rect class="lead" x="250.5" y="517" width="3" height="5" />
+                            <rect class="lead" x="196" y="505.5" width="5" height="3" />
+                            <rect class="lead" x="262" y="505.5" width="5" height="3" />
+                            <rect class="epoxy" x="200" y="455" width="63" height="63" rx="3" />
+                            <circle class="dimple" cx="208" cy="463" r="2.4" />
+                            <image
+                                class="marking"
+                                aria-hidden="true"
+                                href="https://cdn.simpleicons.org/github/ffffff"
+                                x="235"
+                                y="460"
+                                width="26.4"
+                                height="20"
+                                preserveAspectRatio="xMidYMid meet"
+                            />
+                            <text class="marking" x="220" y="480" style="font-size: 9px">
+                                github
+                            </text>
+                            <text class="marking" x="220" y="490" style="font-size: 7px">
+                                external
+                            </text>
+                            <text class="marking" x="230" y="505" style="font-size: 7px">
+                                YSH145A-209Q
+                            </text>
+                            <text
+                                class="silk"
+                                transform="translate(230 533)"
+                                style="font-size: 7px"
+                            >
+                                github
+                            </text>
+                        </g>
+                    </a>
 
-    .app {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      cursor: pointer;
-      text-align: center;
-      width: 90px;
-    }
+                    <a
+                        class="part"
+                        href="https://www.linkedin.com/in/yash-patel-4202b8295"
+                        target="_blank"
+                        rel="noopener"
+                        aria-label="LinkedIn, opens in new tab"
+                    >
+                        <path class="trace pwr" d="M175 586V575H112V441H131" />
+                        <path class="trace pwr" d="M112 517H42" />
+                        <path class="trace pwr" d="M42 487H60V517" />
+                        <path class="trace pwr" d="M118 602H150V575" />
+                        <path class="trace pwr" d="M252 586V575H288V547H293" />
+                        <rect class="halo" x="148" y="582" width="124" height="112" rx="4" />
+                        <rect class="hit" x="148" y="582" width="124" height="112" />
+                        <g class="press nudge">
+                            <rect class="fillet" x="172.8" y="585" width="4.4" height="12" />
+                            <rect class="finger" x="173.5" y="586" width="3" height="13" rx="0.5" />
+                            <rect class="fillet" x="179.8" y="585" width="4.4" height="12" />
+                            <rect class="finger" x="180.5" y="586" width="3" height="13" rx="0.5" />
+                            <rect class="fillet" x="186.8" y="585" width="4.4" height="12" />
+                            <rect class="finger" x="187.5" y="586" width="3" height="13" rx="0.5" />
+                            <rect class="fillet" x="193.8" y="585" width="4.4" height="12" />
+                            <rect class="finger" x="194.5" y="586" width="3" height="13" rx="0.5" />
+                            <rect class="fillet" x="200.8" y="585" width="4.4" height="12" />
+                            <rect class="finger" x="201.5" y="586" width="3" height="13" rx="0.5" />
+                            <rect class="fillet" x="207.8" y="585" width="4.4" height="12" />
+                            <rect class="finger" x="208.5" y="586" width="3" height="13" rx="0.5" />
+                            <rect class="fillet" x="214.8" y="585" width="4.4" height="12" />
+                            <rect class="finger" x="215.5" y="586" width="3" height="13" rx="0.5" />
+                            <rect class="fillet" x="221.8" y="585" width="4.4" height="12" />
+                            <rect class="finger" x="222.5" y="586" width="3" height="13" rx="0.5" />
+                            <rect class="fillet" x="228.8" y="585" width="4.4" height="12" />
+                            <rect class="finger" x="229.5" y="586" width="3" height="13" rx="0.5" />
+                            <rect class="fillet" x="235.8" y="585" width="4.4" height="12" />
+                            <rect class="finger" x="236.5" y="586" width="3" height="13" rx="0.5" />
+                            <rect class="fillet" x="242.8" y="585" width="4.4" height="12" />
+                            <rect class="finger" x="243.5" y="586" width="3" height="13" rx="0.5" />
+                            <rect class="fillet" x="249.8" y="585" width="4.4" height="12" />
+                            <rect class="finger" x="250.5" y="586" width="3" height="13" rx="0.5" />
+                            <rect class="fillet" x="151" y="605" width="10" height="18" rx="1" />
+                            <rect class="lead" x="152" y="606" width="8" height="16" rx="1" />
+                            <rect class="fillet" x="259" y="605" width="10" height="18" rx="1" />
+                            <rect class="lead" x="260" y="606" width="8" height="16" rx="1" />
+                            <rect class="fillet" x="151" y="663" width="10" height="24" rx="1" />
+                            <rect class="lead" x="152" y="664" width="8" height="22" rx="1" />
+                            <rect class="fillet" x="259" y="663" width="10" height="24" rx="1" />
+                            <rect class="lead" x="260" y="664" width="8" height="22" rx="1" />
+                            <rect
+                                class="usb-shell"
+                                x="158"
+                                y="596"
+                                width="104"
+                                height="96"
+                                rx="8"
+                            />
+                            <rect class="usb-seam" x="167" y="605" width="86" height="78" rx="7" />
+                            <rect class="usb-latch" x="176" y="668" width="14" height="6" rx="1" />
+                            <rect class="usb-latch" x="230" y="668" width="14" height="6" rx="1" />
+                            <path
+                                class="marking"
+                                aria-hidden="true"
+                                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 1 1 0-4.124 2.062 2.062 0 0 1 0 4.124zM3.555 9h3.564v11.452H3.555V9zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+                                fill="#fff"
+                                transform="translate(180 615) scale(.8333333)"
+                            />
+                            <text
+                                class="silk"
+                                transform="translate(210 576)"
+                                style="font-size: 7px"
+                            >
+                                linkedin
+                            </text>
 
-    .app p {
-      color: var(--text);
-      font-size: 0.85em;
-      margin-top: 9px;
-      font-weight: 500;
-      letter-spacing: -0.01em;
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
-    }
+                            <text class="marking" x="225" y="620" style="font-size: 9px">
+                                linkedin
+                            </text>
+                            <text class="marking" x="225" y="630" style="font-size: 7px">
+                                external
+                            </text>
+                            <text class="marking" x="210" y="645" style="font-size: 7px">
+                                YSH145-5V
+                            </text>
+                        </g>
+                    </a>
+                </svg>
 
-    .app-icon {
-      position: relative;
-      width: 85px;
-      height: 85px;
-      /* superellipse squircle, with rounded-rect fallback for old engines */
-      border-radius: var(--r-icon);
-      -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath fill='%23000' d='M100 0C20 0 0 20 0 100s20 100 100 100 100-20 100-100S180 0 100 0z'/%3E%3C/svg%3E");
-      mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath fill='%23000' d='M100 0C20 0 0 20 0 100s20 100 100 100 100-20 100-100S180 0 100 0z'/%3E%3C/svg%3E");
-      -webkit-mask-size: 100% 100%;
-      mask-size: 100% 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2em;
-      color: #fff;
-      /* drop-shadow (not box-shadow) so the shadow follows the masked squircle */
-      filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.30));
-      transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.15s ease;
-    }
+                <div id="screen">
+                    <div class="screen-content">
+                        <span class="screen-id" style="--i: 0">WEB-YSP</span>
+                        <span class="screen-fcc" style="--i: 0">FCC ID: YSPTL-2026</span>
+                        <h1 style="--i: 1">welcome to my portfolio!</h1>
+                        <hr style="--i: 2" />
+                        <ul class="screen-lines">
+                            <li style="--i: 3"><b>Yash Patel</b></li>
+                            <li style="--i: 4">
+                                Computer Engineer, University of New Hampshire graduate
+                            </li>
+                            <li style="--i: 5">
+                                <span class="k">Languages:</span> Rust, C, Python, Web (HTML, CSS,
+                                JS), Bash/Shell
+                            </li>
+                            <li style="--i: 6">
+                                <span class="k">HDL:</span> SystemVerilog, Verilog
+                            </li>
+                            <li style="--i: 7">
+                                <span class="k">Protocols:</span> 100BASE-T1 (PHY-C, PCS), Ethernet,
+                                TCP/IP, CAN, I2C, SPI, UART, SSH
+                            </li>
+                        </ul>
+                        <p class="screen-hint" style="--i: 8">tap a part to explore</p>
+                    </div>
+                </div>
+            </div>
+        </main>
 
-    .app-icon.github {
-      background: #24292f;
-      box-shadow: inset 0 0 0 1px var(--hairline);
-    }
+        <!-- modal dialog windows for each app -->
 
-    .app-icon.projects {
-      background: #5e5ce6;
-    }
+        <dialog class="win" id="win-resume" data-app="resume" aria-labelledby="win-resume-title">
+            <div class="win-scrim"></div>
+            <section class="win-frame" tabindex="-1" autofocus>
+                <header class="win-bar">
+                    <span class="win-led"></span>
+                    <h2 id="win-resume-title">Resume</h2>
+                    <button class="win-close" aria-label="Close window">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </header>
+                <div class="win-body">
+                    <div id="resume-viewer">
+                        <div id="toolbar">
+                            <button id="btn-prev" title="Previous page">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </button>
+                            <span class="page-info" id="page-info">Page 1 / 1</span>
+                            <button id="btn-next" title="Next page">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </button>
+                            <div class="separator"></div>
+                            <button id="btn-zoom-out" title="Zoom out">
+                                <i class="fa-solid fa-minus"></i>
+                            </button>
+                            <button id="btn-zoom-in" title="Zoom in">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                            <div class="separator"></div>
+                            <button id="btn-rotate" title="Rotate">
+                                <i class="fa-solid fa-rotate-right"></i>
+                            </button>
+                            <div class="separator"></div>
+                            <a
+                                class="download-btn"
+                                href="YashPatel_Resume2026.pdf"
+                                download="YashPatel_Resume2026.pdf"
+                                title="Download resume"
+                            >
+                                <i class="fa-solid fa-download"></i> Download
+                            </a>
+                        </div>
+                        <div id="pdf-container">
+                            <div id="pdf-message">
+                                <i class="fa-solid fa-file-pdf"></i>
+                                Loading resume...
+                            </div>
+                            <canvas id="pdf-canvas"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="win-fx" aria-hidden="true"></div>
+                <div class="win-flash" aria-hidden="true"></div>
+            </section>
+        </dialog>
 
-    .app-icon.resume {
-      background: #0a84ff;
-    }
+        <dialog
+            class="win"
+            id="win-projects"
+            data-app="projects"
+            aria-labelledby="win-projects-title"
+        >
+            <div class="win-scrim"></div>
+            <section class="win-frame" tabindex="-1" autofocus>
+                <header class="win-bar">
+                    <span class="win-led"></span>
+                    <h2 id="win-projects-title">Projects</h2>
+                    <button class="win-close" aria-label="Close window">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </header>
+                <div class="win-body scroll">
+                    <div id="projects-container">
+                        <div class="projects-head">
+                            <p>A few things I've built.</p>
+                            <a
+                                href="https://github.com/yosh145?tab=repositories"
+                                target="_blank"
+                                rel="noopener"
+                                >All repositories on GitHub →</a
+                            >
+                        </div>
+                        <div class="project-grid" id="project-grid"></div>
+                    </div>
+                </div>
+                <div class="win-fx" aria-hidden="true"></div>
+                <div class="win-flash" aria-hidden="true"></div>
+            </section>
+        </dialog>
 
-    .app-icon.linkedin {
-      background: #0a66c2;
-    }
+        <dialog class="win" id="win-toolbox" data-app="toolbox" aria-labelledby="win-toolbox-title">
+            <div class="win-scrim"></div>
+            <section class="win-frame" tabindex="-1" autofocus>
+                <header class="win-bar">
+                    <span class="win-led"></span>
+                    <h2 id="win-toolbox-title">Toolbox</h2>
+                    <button class="win-close" aria-label="Close window">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </header>
+                <div class="win-body">
+                    <div id="toolbox-container">
+                        <aside id="tool-sidebar">
+                            <div class="tool-search-wrap">
+                                <input
+                                    type="text"
+                                    class="tool-search"
+                                    id="tool-search"
+                                    placeholder="Search tools"
+                                    oninput="buildSidebar(this.value)"
+                                />
+                            </div>
+                            <nav id="tool-nav"></nav>
+                        </aside>
 
-    .app-icon.toolbox {
-      background: #ff9500;
-    }
+                        <div id="tool-detail">
+                            <button id="tool-back" onclick="showList()">
+                                <i class="fa-solid fa-chevron-left"></i> Tools
+                            </button>
 
-    /* tactile states: gentle lift on hover, press-down on tap */
-    .app:hover .app-icon {
-      transform: scale(1.06);
-    }
+                            <div id="Base64" class="tabcontent">
+                                <h2>Base64 Decoder</h2>
+                                <input
+                                    type="text"
+                                    id="base64-input"
+                                    placeholder="Enter Base64 string"
+                                />
+                                <button onclick="decodeBase64()">Decode</button>
+                                <p id="decoded-output"></p>
+                            </div>
 
-    .app:active .app-icon {
-      transform: scale(0.92);
-      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.30)) brightness(0.9);
-    }
+                            <div id="URL" class="tabcontent">
+                                <h2>URL Encoder/Decoder</h2>
+                                <input type="text" id="url-input" placeholder="Enter URL string" />
+                                <button onclick="encodeURL()">Encode</button>
+                                <button onclick="decodeURL()">Decode</button>
+                                <p id="url-output"></p>
+                            </div>
 
-    @media (max-width: 860px) {
-      #home-screen {
-        padding: 50px 16px 24px;
-      }
+                            <div id="Hex" class="tabcontent">
+                                <h2>Hex Encoder/Decoder</h2>
+                                <input type="text" id="hex-input" placeholder="Enter text" />
+                                <button onclick="encodeHex()">Encode</button>
+                                <button onclick="decodeHex()">Decode</button>
+                                <p id="hex-output"></p>
+                            </div>
 
-      .info-box {
-        margin: 8px 0 4px;
-        padding: 18px 20px;
-        border-radius: 20px;
-      }
+                            <div id="Morse" class="tabcontent">
+                                <h2>Morse Code Encoder/Decoder</h2>
+                                <input type="text" id="morse-input" placeholder="Enter text" />
+                                <button onclick="encodeMorse()">Encode</button>
+                                <button onclick="decodeMorse()">Decode</button>
+                                <p id="morse-output"></p>
+                            </div>
 
-      .info-box h1 {
-        font-size: 1.6em;
-      }
+                            <div id="Binary" class="tabcontent">
+                                <h2>Binary Encoder/Decoder</h2>
+                                <input type="text" id="binary-input" placeholder="Enter text" />
+                                <button onclick="encodeBinary()">Encode</button>
+                                <button onclick="decodeBinary()">Decode</button>
+                                <p id="binary-output"></p>
+                            </div>
 
-      .info-box p,
-      .info-box li {
-        font-size: 0.95em;
-      }
+                            <div id="Caesar" class="tabcontent">
+                                <h2>Caesar Cipher</h2>
+                                <input
+                                    type="text"
+                                    id="caesar-input"
+                                    placeholder="Enter text to encrypt/decrypt"
+                                />
+                                <input
+                                    type="number"
+                                    id="caesar-shift"
+                                    value="3"
+                                    placeholder="Shift value"
+                                />
+                                <button onclick="runCaesarCipher(true)">Encrypt</button>
+                                <button onclick="runCaesarCipher(false)">Decrypt</button>
+                                <p id="caesar-output"></p>
+                            </div>
 
-      .info-box ul {
-        padding-left: 20px;
-      }
+                            <div id="Hash" class="tabcontent">
+                                <h2>Hash Generator</h2>
+                                <input
+                                    type="text"
+                                    id="hash-input"
+                                    placeholder="Enter text to hash"
+                                />
+                                <select id="hash-algo">
+                                    <option value="MD5">MD5</option>
+                                    <option value="SHA-1">SHA-1</option>
+                                    <option value="SHA-256">SHA-256</option>
+                                    <option value="SHA-512">SHA-512</option>
+                                </select>
+                                <button onclick="generateHash()">Generate Hash</button>
+                                <p id="hash-output"></p>
+                            </div>
 
-      .apps-container {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 26px 16px;
-        padding: 28px 8px 16px;
-        max-width: 300px;
-        margin: 0 auto;
-        justify-items: center;
-      }
+                            <div id="Counter" class="tabcontent">
+                                <h2>Character & Word Counter</h2>
+                                <textarea
+                                    id="counter-input"
+                                    placeholder="Paste or type text here..."
+                                    oninput="updateTextCount()"
+                                ></textarea>
+                                <p class="counter-output">
+                                    Characters: <span id="char-count">0</span> | Words:
+                                    <span id="word-count">0</span> | Lines:
+                                    <span id="line-count">0</span>
+                                </p>
+                            </div>
 
-      .app {
-        width: auto;
-      }
+                            <div id="BaseConv" class="tabcontent">
+                                <h2>Number Base Converter</h2>
+                                <div class="field-row">
+                                    <div>
+                                        <label class="field-label">Value</label>
+                                        <input
+                                            type="text"
+                                            id="bc-input"
+                                            placeholder="e.g. 255, 0xFF, 0b1010"
+                                            oninput="convertBase()"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label class="field-label">Input base</label>
+                                        <select id="bc-base" onchange="convertBase()">
+                                            <option value="10">Decimal</option>
+                                            <option value="2">Binary</option>
+                                            <option value="8">Octal</option>
+                                            <option value="16">Hexadecimal</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="result-grid" id="bc-out"></div>
+                            </div>
 
-      .app-icon {
-        width: 72px;
-        height: 72px;
-        font-size: 1.7em;
-      }
-    }
-  </style>
-</head>
+                            <div id="Bitwise" class="tabcontent">
+                                <h2>Bitwise Calculator</h2>
+                                <div class="field-row">
+                                    <div>
+                                        <label class="field-label">A</label>
+                                        <input
+                                            type="text"
+                                            id="bw-a"
+                                            placeholder="0xF0 / 0b1010 / 240"
+                                            oninput="calcBitwise()"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label class="field-label">Operation</label>
+                                        <select id="bw-op" onchange="calcBitwise()">
+                                            <option value="and">A AND B</option>
+                                            <option value="or">A OR B</option>
+                                            <option value="xor">A XOR B</option>
+                                            <option value="not">NOT A</option>
+                                            <option value="shl">A &lt;&lt; B</option>
+                                            <option value="shr">A &gt;&gt; B</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="field-label">B</label>
+                                        <input
+                                            type="text"
+                                            id="bw-b"
+                                            placeholder="0x0F / 4"
+                                            oninput="calcBitwise()"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label class="field-label">Width</label>
+                                        <select id="bw-width" onchange="calcBitwise()">
+                                            <option value="8">8-bit</option>
+                                            <option value="16">16-bit</option>
+                                            <option value="32" selected>32-bit</option>
+                                            <option value="64">64-bit</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="result-grid" id="bw-out"></div>
+                            </div>
 
-<body>
-  <div id="tablet">
-    <div id="screen">
-      <div id="status-bar">
-        <div class="status-left"><span id="time-display"></span></div>
-        <div class="status-right">
-          <!-- wifi -->
-          <svg viewBox="0 0 20 15" aria-label="Wi-Fi" role="img">
-            <path d="M10 14.2 12.4 11a3 3 0 0 0-4.8 0L10 14.2Zm4-5.3 1.5-2a7 7 0 0 0-11 0l1.5 2a4.6 4.6 0 0 1 8 0ZM10 0a11 11 0 0 0-8.9 4.5L2.6 6.5a8.6 8.6 0 0 1 14.8 0l1.5-2A11 11 0 0 0 10 0Z"/>
-          </svg>
-          <!-- battery -->
-          <svg viewBox="0 0 28 13" aria-label="Battery" role="img">
-            <rect x="0.5" y="0.5" width="23" height="12" rx="3.5" fill="none" stroke="currentColor" stroke-opacity="0.45"/>
-            <rect x="2" y="2" width="20" height="9" rx="2"/>
-            <path d="M25 4.2v4.6a2 2 0 0 0 0-4.6Z" fill-opacity="0.5"/>
-          </svg>
-        </div>
-      </div>
-      <div id="home-screen">
-        <div class="info-box">
-          <h1>About me:</h1>
-          <p>My name is Yash Patel, I am a <b>Graduated Computer Engineer</b> from the University of New Hampshire</p>
-          <p>I have experience in various programming languages and technologies. Some of my skills include:</p>
-          <ul>
-            <li><b>Programming Languages:</b> Rust, C, Python, Web (HTML, CSS, JS), Bash/Shell</li>
-            <li><b>Hardware Description:</b> SystemVerilog, Verilog</li>
-            <li><b>Protocols:</b> 100BASE-T1 (PHY-C, PCS), Ethernet, TCP/IP, CAN, I2C, SPI, UART, SSH</li>
-          </ul>
-          <p> Feel free to explore my portfolio and check out my projects and experience!</p>
-        </div>
-        <div class="apps-container">
-          <div class="app" onclick="redirectTo('projects')">
-            <div class="app-icon projects"><i class="fa-solid fa-diagram-project"></i></div>
-            <p>Projects</p>
-          </div>
-          <div class="app" onclick="redirectTo('github')">
-            <div class="app-icon github"><i class="fa-brands fa-github"></i></div>
-            <p>GitHub</p>
-          </div>
-          <div class="app" onclick="redirectTo('resume')">
-            <div class="app-icon resume"><i class="fa-solid fa-file-lines"></i></div>
-            <p>Resume</p>
-          </div>
-          <div class="app" onclick="redirectTo('linkedin')">
-            <div class="app-icon linkedin"><i class="fa-brands fa-linkedin-in"></i></div>
-            <p>LinkedIn</p>
-          </div>
-          <div class="app" onclick="redirectTo('toolbox')">
-            <div class="app-icon toolbox"><i class="fa-solid fa-toolbox"></i></div>
-            <p>Toolbox</p>
-          </div>
-        </div>
-      </div>
-      <div id="home-zone"></div>
-      <div id="home-bar" aria-label="Home Button"></div>
-    </div>
-  </div>
-  <script src="shared.js"></script>
-  <script>
-    window.redirectTo = function (pageName) {
-      const links = {
-        github: { url: 'https://github.com/yosh145', external: true },
-        linkedin: { url: 'https://www.linkedin.com/in/yash-patel-4202b8295', external: true },
-        projects: { url: 'projects.html', external: false },
-        resume: { url: 'resume.html', external: false },
-        toolbox: { url: 'toolbox.html', external: false }
-      };
+                            <div id="Twos" class="tabcontent">
+                                <h2>Two's Complement</h2>
+                                <div class="field-row">
+                                    <div>
+                                        <label class="field-label"
+                                            >Value (decimal, may be negative)</label
+                                        >
+                                        <input
+                                            type="text"
+                                            id="tc-input"
+                                            placeholder="-42"
+                                            oninput="calcTwos()"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label class="field-label">Width</label>
+                                        <select id="tc-width" onchange="calcTwos()">
+                                            <option value="8" selected>8-bit</option>
+                                            <option value="16">16-bit</option>
+                                            <option value="32">32-bit</option>
+                                            <option value="64">64-bit</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="result-grid" id="tc-out"></div>
+                            </div>
 
-      const link = links[pageName];
-      if (link) {
-        if (link.external) {
-          window.open(link.url, '_blank');
-        } else {
-          window.location.href = link.url;
-        }
-      }
-    };
-  </script>
-</body>
+                            <div id="Float" class="tabcontent">
+                                <h2>IEEE-754 Floating Point</h2>
+                                <div class="field-row">
+                                    <div>
+                                        <label class="field-label">Decimal value</label>
+                                        <input
+                                            type="text"
+                                            id="fl-input"
+                                            placeholder="3.14159"
+                                            oninput="calcFloat()"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label class="field-label">Precision</label>
+                                        <select id="fl-prec" onchange="calcFloat()">
+                                            <option value="32" selected>32-bit (single)</option>
+                                            <option value="64">64-bit (double)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="result-grid" id="fl-out"></div>
+                            </div>
 
+                            <div id="Ascii" class="tabcontent">
+                                <h2>ASCII Table</h2>
+                                <div id="ascii-out"></div>
+                            </div>
+
+                            <div id="Subnet" class="tabcontent">
+                                <h2>Subnet / CIDR Calculator</h2>
+                                <input
+                                    type="text"
+                                    id="sn-input"
+                                    placeholder="192.168.1.10/24"
+                                    oninput="calcSubnet()"
+                                />
+                                <div class="result-grid" id="sn-out"></div>
+                            </div>
+
+                            <div id="CRC" class="tabcontent">
+                                <h2>CRC-32 (IEEE 802.3)</h2>
+                                <input
+                                    type="text"
+                                    id="crc-input"
+                                    placeholder="Enter text"
+                                    oninput="calcCRC()"
+                                />
+                                <div class="result-grid" id="crc-out"></div>
+                            </div>
+
+                            <div id="Ohm" class="tabcontent">
+                                <h2>Ohm's Law</h2>
+                                <p
+                                    style="
+                                        color: var(--text-secondary);
+                                        font-size: 0.85em;
+                                        margin-top: 0;
+                                    "
+                                >
+                                    Fill in any two values:
+                                </p>
+                                <div class="field-row">
+                                    <div>
+                                        <label class="field-label">Voltage (V)</label
+                                        ><input
+                                            type="number"
+                                            id="ohm-v"
+                                            placeholder="volts"
+                                            oninput="calcOhm()"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label class="field-label">Current (A)</label
+                                        ><input
+                                            type="number"
+                                            id="ohm-i"
+                                            placeholder="amps"
+                                            oninput="calcOhm()"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label class="field-label">Resistance (Ω)</label
+                                        ><input
+                                            type="number"
+                                            id="ohm-r"
+                                            placeholder="ohms"
+                                            oninput="calcOhm()"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label class="field-label">Power (W)</label
+                                        ><input
+                                            type="number"
+                                            id="ohm-p"
+                                            placeholder="watts"
+                                            oninput="calcOhm()"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="result-grid" id="ohm-out"></div>
+                            </div>
+
+                            <div id="Resistor" class="tabcontent">
+                                <h2>Resistor Color Code (4-band)</h2>
+                                <div class="field-row">
+                                    <div>
+                                        <label class="field-label">Band 1</label
+                                        ><select id="rc-b1" onchange="calcResistor()"></select>
+                                    </div>
+                                    <div>
+                                        <label class="field-label">Band 2</label
+                                        ><select id="rc-b2" onchange="calcResistor()"></select>
+                                    </div>
+                                    <div>
+                                        <label class="field-label">Multiplier</label
+                                        ><select id="rc-mult" onchange="calcResistor()"></select>
+                                    </div>
+                                    <div>
+                                        <label class="field-label">Tolerance</label
+                                        ><select id="rc-tol" onchange="calcResistor()"></select>
+                                    </div>
+                                </div>
+                                <div class="resistor-bands" id="rc-preview"></div>
+                                <div class="result-grid" id="rc-out"></div>
+                            </div>
+
+                            <div id="Units" class="tabcontent">
+                                <h2>Unit Converter</h2>
+                                <div class="field-row">
+                                    <div>
+                                        <label class="field-label">Category</label
+                                        ><select id="un-cat" onchange="buildUnits()"></select>
+                                    </div>
+                                    <div>
+                                        <label class="field-label">Value</label
+                                        ><input
+                                            type="number"
+                                            id="un-val"
+                                            value="1"
+                                            oninput="convertUnits()"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="field-row">
+                                    <div>
+                                        <label class="field-label">From</label
+                                        ><select id="un-from" onchange="convertUnits()"></select>
+                                    </div>
+                                    <div>
+                                        <label class="field-label">To</label
+                                        ><select id="un-to" onchange="convertUnits()"></select>
+                                    </div>
+                                </div>
+                                <div class="result-grid" id="un-out"></div>
+                            </div>
+
+                            <div id="Epoch" class="tabcontent">
+                                <h2>Unix Epoch Converter</h2>
+                                <div class="field-row">
+                                    <div>
+                                        <label class="field-label">Timestamp (seconds or ms)</label
+                                        ><input
+                                            type="text"
+                                            id="ep-ts"
+                                            placeholder="1700000000"
+                                            oninput="epochToDate()"
+                                        />
+                                    </div>
+                                    <div style="display: flex; align-items: flex-end">
+                                        <button onclick="epochNow()">Now</button>
+                                    </div>
+                                </div>
+                                <div class="result-grid" id="ep-out"></div>
+                                <div class="field-row" style="margin-top: 20px">
+                                    <div>
+                                        <label class="field-label"
+                                            >Date/time (ISO or any parseable string)</label
+                                        ><input
+                                            type="text"
+                                            id="ep-date"
+                                            placeholder="2024-01-01 12:00"
+                                            oninput="dateToEpoch()"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="result-grid" id="ep-out2"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="win-fx" aria-hidden="true"></div>
+                <div class="win-flash" aria-hidden="true"></div>
+            </section>
+        </dialog>
+
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"
+            defer
+        ></script>
+        <script src="apps/projects.js" defer></script>
+        <script src="apps/resume.js" defer></script>
+        <script src="apps/toolbox.js" defer></script>
+        <script src="esp32.js" defer></script>
+    </body>
 </html>
